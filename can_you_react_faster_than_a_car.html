@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Can You React Faster Than a Car?</title>
+  <style>
+    :root{
+      --bg:#020617;--card:#0f172a;--text:#f8fafc;--muted:#cbd5e1;--line:#334155;
+      --blue:#60a5fa;--green:#34d399;--red:#f87171;--amber:#fbbf24;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:radial-gradient(circle at top,#0b1f4b 0%,var(--bg) 35%);color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+    h1{margin:0;font-size:40px;line-height:1.1}.sub{color:var(--muted);margin-top:8px;max-width:760px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}.badge{background:#1e293b;color:#fff;border:1px solid #334155;border-radius:999px;padding:8px 12px;font-size:14px}
+    .card{background:rgba(15,23,42,.95);border:1px solid #1f2937;border-radius:24px;box-shadow:0 18px 40px rgba(0,0,0,.35);margin-top:20px;overflow:hidden}
+    .p{padding:24px}.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+    .panel{background:rgba(30,41,59,.7);border:1px solid #334155;border-radius:18px;padding:18px}
+    .panel h3{margin:0 0 10px} ul{margin:10px 0 0 20px;color:#e2e8f0} li{margin:8px 0}
+    .cta{background:linear-gradient(135deg,#102d63,#111827 60%);border:1px solid rgba(96,165,250,.25);display:flex;flex-direction:column;justify-content:space-between}
+    .btn{appearance:none;border:none;border-radius:16px;padding:14px 18px;background:linear-gradient(90deg,#2563eb,#1d4ed8);color:white;font-weight:700;cursor:pointer;font-size:16px}
+    .btn.secondary{background:transparent;border:1px solid #475569}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:rgba(15,23,42,.95);border:1px solid #1f2937;border-radius:18px;padding:16px}
+    .label{color:var(--muted);font-size:13px}.value{font-size:30px;font-weight:800;margin-top:6px}
+    .progress{height:12px;background:#1e293b;border-radius:999px;overflow:hidden;margin:16px 0}.bar{height:100%;background:linear-gradient(90deg,#60a5fa,#2563eb);width:0%}
+    .scenario-head{background:linear-gradient(90deg,rgba(29,78,216,.35),rgba(15,23,42,.95));border-bottom:1px solid #1f2937;padding:22px 24px;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+    .scenario-title{font-size:34px;font-weight:800}.scenario-context{color:var(--muted);margin-top:8px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.mini{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:8px 12px;color:#fff;font-size:14px}
+    .time{font-size:28px;font-weight:800}.blue{color:#bfdbfe}.red{color:#fecaca}.amber{color:#fde68a}
+    .prompt{background:rgba(30,41,59,.75);border:1px solid #334155;border-radius:22px;padding:22px}.prompt .small{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#f8fafc;opacity:.9}.prompt .big{font-size:30px;line-height:1.4;margin-top:8px}
+    .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.choice{text-align:left;background:rgba(15,23,42,.7);border:1px solid #334155;border-radius:22px;padding:18px;color:#fff;cursor:pointer;transition:.18s ease}
+    .choice:hover{border-color:#60a5fa;background:rgba(37,99,235,.12)}.choice.disabled{cursor:default}.choice.correct{border-color:var(--green);background:rgba(52,211,153,.12)}.choice.wrong{border-color:var(--red);background:rgba(248,113,113,.12)}
+    .choice .key{display:inline-block;border-radius:999px;background:#475569;padding:6px 11px;font-weight:700;font-size:13px}.choice .txt{font-size:20px;line-height:1.45;margin-top:16px}
+    .reveal{margin-top:20px;background:rgba(30,41,59,.7);border:1px solid #334155;border-radius:22px;padding:18px}.reveal h3{margin:0 0 10px}
+    .accident{margin-top:14px;border-radius:16px;padding:14px;border:1px solid #000}.accident.redbg{background:rgba(248,113,113,.12);border-color:#f87171;color:#fff1f2}.accident.ambg{background:rgba(251,191,36,.12);border-color:#fbbf24;color:#fffbeb}
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.note{background:linear-gradient(90deg,rgba(29,78,216,.25),rgba(30,41,59,.9));border:1px solid rgba(96,165,250,.25);border-radius:22px;padding:20px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hidden{display:none}.controls{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    @media (max-width:900px){.hero,.choices,.stats,.results-grid,.two{grid-template-columns:1fr}.scenario-title{font-size:28px}.prompt .big{font-size:24px}h1{font-size:32px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div>
+      <h1>Can You React Faster Than a Car?</h1>
+      <div class="sub">A standalone classroom game about reaction time, judgment under uncertainty, and why driver-assistance systems matter. No Mobileye knowledge needed.</div>
+    </div>
+    <div class="badges">
+      <div class="badge">12 scenarios</div>
+      <div class="badge">Timed + untimed</div>
+      <div class="badge">Presenter-controlled</div>
+    </div>
+  </div>
+
+  <div id="intro" class="card">
+    <div class="p hero">
+      <div>
+        <div class="panel">
+          <h3>How the game works</h3>
+          <ul>
+            <li>You will see driving situations.</li>
+            <li>Some rounds are timed. Some rounds are untimed discussion rounds.</li>
+            <li>Choose A, B, or C on one shared screen.</li>
+            <li>After each answer, the game explains the safer choice and shows whether an accident happened in the simulation.</li>
+          </ul>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h3>Best way to run it in class</h3>
+          <ul>
+            <li>Project this page on the screen.</li>
+            <li>Have everyone vote with fingers, paper cards, or by shouting A, B, or C.</li>
+            <li>You control the pace by clicking the choices and Next button.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel cta">
+        <div>
+          <h3>Why this is engaging</h3>
+          <p style="color:#e2e8f0;line-height:1.7">The class feels how hard driving decisions become when time is short or information is missing. That makes ADAS feel real before you explain the technology.</p>
+        </div>
+        <button class="btn" id="startBtn">Start the game</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="play" class="hidden">
+    <div class="stats">
+      <div class="stat"><div class="label">Scenario</div><div class="value" id="statScenario">1 / 12</div></div>
+      <div class="stat"><div class="label">Score</div><div class="value" id="statScore">0</div></div>
+      <div class="stat"><div class="label">Accidents</div><div class="value" id="statAccidents">0</div></div>
+      <div class="stat"><div class="label">Best streak</div><div class="value" id="statStreak">0</div></div>
+    </div>
+    <div class="progress"><div class="bar" id="progressBar"></div></div>
+    <div class="card">
+      <div class="scenario-head">
+        <div>
+          <div class="scenario-title" id="title"></div>
+          <div class="scenario-context" id="context"></div>
+        </div>
+        <div class="row">
+          <div class="mini" id="difficulty"></div>
+          <div style="text-align:right">
+            <div class="label" id="timeLabel">Time left</div>
+            <div class="time blue" id="timeDisplay"></div>
+          </div>
+        </div>
+      </div>
+      <div class="p">
+        <div class="prompt">
+          <div class="small">You are driving...</div>
+          <div class="big" id="prompt"></div>
+          <div class="row" style="margin-top:14px">
+            <div class="mini" id="modeBadge"></div>
+            <div class="mini" id="riskBadge"></div>
+          </div>
+        </div>
+        <div class="choices" id="choices"></div>
+        <div class="reveal hidden" id="reveal">
+          <h3 id="revealTitle"></h3>
+          <div style="color:#f8fafc;line-height:1.7" id="revealText"></div>
+          <div class="accident hidden" id="accidentBox">
+            <div style="font-weight:700;margin-bottom:6px">Simulation outcome</div>
+            <div id="accidentText"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="nextBtn">Next scenario</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="results" class="hidden card">
+    <div class="p">
+      <h2 style="margin:0 0 8px;font-size:34px">Results</h2>
+      <div class="sub" style="margin:0 0 18px">Your classroom reaction summary</div>
+      <div class="results-grid">
+        <div class="stat"><div class="label">Final score</div><div class="value" id="finalScore"></div></div>
+        <div class="stat"><div class="label">Accuracy</div><div class="value" id="finalAccuracy"></div></div>
+        <div class="stat"><div class="label">Accidents triggered</div><div class="value" id="finalAccidents"></div></div>
+      </div>
+      <div class="note" style="margin-top:18px">
+        <div style="font-size:26px;font-weight:800;margin-bottom:8px" id="finalLabel"></div>
+        <div style="line-height:1.7;color:#e2e8f0">This game shows one simple idea: common road decisions become hard when time is short, visibility is limited, or information is incomplete. That is exactly why driver-assistance systems matter.</div>
+      </div>
+      <div class="two" style="margin-top:18px">
+        <div class="panel">
+          <h3>Fast debrief questions</h3>
+          <ul>
+            <li>Which untimed scenario felt hardest, and why?</li>
+            <li>Did anyone choose differently because information was limited?</li>
+            <li>Which wrong choice looked reasonable at first?</li>
+            <li>Where would ADAS help most: warning, braking, or awareness?</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Bridge back to your presentation</h3>
+          <p style="color:#e2e8f0;line-height:1.7">If these choices already feel stressful in a classroom, imagine them in real traffic at speed. Mobileye builds systems that help with exactly these moments: seeing danger earlier, processing it quickly, and assisting the driver before human error becomes a crash.</p>
+        </div>
+      </div>
+      <div class="controls" style="margin-top:18px">
+        <button class="btn" id="restartBtn">Restart for the whole class</button>
+        <button class="btn secondary" id="backBtn">Back to intro</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCENARIOS=[
+{id:1,title:'Crosswalk Surprise',prompt:'A pedestrian steps off the curb from between parked cars.',context:'Urban street, 25 mph, clear daylight.',mode:'timed',reactionMs:2800,difficulty:'Medium',accidentRisk:'High if delayed',choices:[{key:'A',text:'Brake immediately',correct:true,explain:'Correct. The safest reaction is to brake right away and prepare to stop.'},{key:'B',text:'Swerve left around them',correct:false,explain:'Swerving can create a second crash risk, especially into oncoming traffic.'},{key:'C',text:'Honk and keep going',correct:false,explain:'A horn is not enough when someone is already in your path.'}]},
+{id:2,title:'Brake Lights Ahead',prompt:'The car in front slams on its brakes after traffic suddenly stacks up.',context:'Highway traffic, 60 mph.',mode:'timed',reactionMs:2200,difficulty:'Hard',accidentRisk:'Very high',choices:[{key:'A',text:'Check phone first',correct:false,explain:'Any delay here is dangerous because stopping distance is shrinking fast.'},{key:'B',text:'Brake hard and keep straight',correct:true,explain:'Correct. Immediate braking while staying controlled is the safest default reaction.'},{key:'C',text:'Accelerate to pass',correct:false,explain:'Acceleration increases risk when the vehicle ahead is already stopping hard.'}]},
+{id:3,title:'Blind Spot Risk',prompt:'You signal to change lanes, but a car is sitting just out of your view.',context:'Multi lane road, moderate traffic.',mode:'timed',reactionMs:3000,difficulty:'Easy',accidentRisk:'Medium',choices:[{key:'A',text:'Change lanes quickly anyway',correct:false,explain:'Moving anyway could cause a side collision.'},{key:'B',text:'Wait and recheck',correct:true,explain:'Correct. Pause, recheck, and only move when the lane is truly clear.'},{key:'C',text:'Brake in the middle of the lane change',correct:false,explain:'Braking during a half-completed lane change can create confusion and risk.'}]},
+{id:4,title:'Rain and Faded Lanes',prompt:'Heavy rain makes lane markings hard to see and your view gets worse.',context:'Night driving, wet road.',mode:'timed',reactionMs:3500,difficulty:'Medium',accidentRisk:'Medium',choices:[{key:'A',text:'Slow down and keep centered',correct:true,explain:'Correct. Lower speed gives you more time and lowers the severity of mistakes.'},{key:'B',text:'Speed up to get through faster',correct:false,explain:'Higher speed in low visibility gives you less time to react.'},{key:'C',text:'Turn on hazard lights and stop in the lane',correct:false,explain:'Stopping in a live lane is usually unsafe unless there is no better option.'}]},
+{id:5,title:'Ball in the Street',prompt:'A ball rolls into the road from the right side near a parked SUV.',context:'Neighborhood street, children may be nearby.',mode:'timed',reactionMs:2500,difficulty:'Hard',accidentRisk:'Very high',choices:[{key:'A',text:'Keep going unless you see a person',correct:false,explain:'A ball often means a child could follow immediately.'},{key:'B',text:'Brake and prepare for someone to run out',correct:true,explain:'Correct. You should assume a person may appear next.'},{key:'C',text:'Swerve left immediately',correct:false,explain:'A sudden swerve can create a worse crash than controlled braking.'}]},
+{id:6,title:'School Zone Change',prompt:'A speed limit sign drops from 45 mph to 25 mph near a school zone.',context:'Daytime, light traffic.',mode:'timed',reactionMs:4000,difficulty:'Easy',accidentRisk:'Low to medium',choices:[{key:'A',text:'Slow down smoothly',correct:true,explain:'Correct. Lower speed is needed because the risk environment has changed.'},{key:'B',text:'Ignore it if traffic is moving fast',correct:false,explain:'Traffic flow does not remove the new risk or the new legal limit.'},{key:'C',text:'Stop completely',correct:false,explain:'Stopping completely is not necessary unless the road conditions require it.'}]},
+{id:7,title:'Cyclist Door Zone',prompt:'A cyclist appears beside parked cars while a car door starts to open.',context:'Busy downtown street.',mode:'timed',reactionMs:2600,difficulty:'Medium',accidentRisk:'High',choices:[{key:'A',text:'Brake and give extra space',correct:true,explain:'Correct. Slow down and create room because the cyclist is vulnerable.'},{key:'B',text:'Thread through the gap quickly',correct:false,explain:'Trying to squeeze through raises the chance of hitting the cyclist or the door.'},{key:'C',text:'Honk and stay at speed',correct:false,explain:'A horn does not replace reducing speed and creating space.'}]},
+{id:8,title:'Intersection Yellow',prompt:'The light turns yellow as you approach an intersection and a car may be turning left.',context:'City intersection, moderate speed.',mode:'timed',reactionMs:2400,difficulty:'Medium',accidentRisk:'High',choices:[{key:'A',text:'Accelerate to beat the light',correct:false,explain:'Trying to beat the light can create a severe intersection crash.'},{key:'B',text:'Slow and prepare to stop if safe',correct:true,explain:'Correct. Slowing preserves options and reduces risk.'},{key:'C',text:'Look away and trust traffic flow',correct:false,explain:'You need more attention here, not less.'}]},
+{id:9,title:'Limited Information: Parked Van',prompt:'A delivery van blocks your view of the sidewalk at a crosswalk. You cannot see if someone is about to cross.',context:'Downtown area, afternoon.',mode:'untimed',difficulty:'Discussion',accidentRisk:'Unknown / hidden',choices:[{key:'A',text:'Slow down and prepare to stop',correct:true,explain:'Correct. Limited visibility means you should assume hidden risk and create time to react.'},{key:'B',text:'Maintain speed because the road ahead looks open',correct:false,explain:'This is exactly the kind of situation where hidden danger appears late.'},{key:'C',text:'Move closer first, then decide',correct:false,explain:'Waiting until you are closer removes safe reaction time.'}]},
+{id:10,title:'Limited Information: Rolling Ball',prompt:'You see a ball bounce out from behind a parked car, but no person is visible yet.',context:'Residential street.',mode:'untimed',difficulty:'Discussion',accidentRisk:'Hidden / sudden',choices:[{key:'A',text:'Treat it as danger and slow immediately',correct:true,explain:'Correct. You should infer that a child may follow, even before you see one.'},{key:'B',text:'Keep speed until someone appears',correct:false,explain:'By the time someone appears, it may be too late.'},{key:'C',text:'Swerve away from the ball',correct:false,explain:'Swerving without seeing the full scene can create a second hazard.'}]},
+{id:11,title:'Limited Information: Double-Parked Truck',prompt:'A truck is double parked. A lane beside it is open, but you cannot see whether someone may step out from the front.',context:'City street, moderate traffic.',mode:'untimed',difficulty:'Discussion',accidentRisk:'Moderate / hidden',choices:[{key:'A',text:'Pass carefully with lower speed',correct:true,explain:'Correct. The right move is to reduce speed because the missing information creates risk.'},{key:'B',text:'Pass at normal speed because your lane is clear',correct:false,explain:'The lane looks clear, but the hidden area is the danger.'},{key:'C',text:'Stop in the middle of traffic immediately',correct:false,explain:'Stopping suddenly may create a rear-end risk if you do not need to fully stop.'}]},
+{id:12,title:'Drowsy Driver Moment',prompt:'You realize you drifted slightly and your focus is fading.',context:'Late night highway driving.',mode:'untimed',difficulty:'Discussion',accidentRisk:'High if ignored',choices:[{key:'A',text:'Turn up the music and continue',correct:false,explain:'That does not solve drowsiness and keeps risk high.'},{key:'B',text:'Use lane support but keep driving for hours',correct:false,explain:'Driver assistance helps, but it is not a substitute for a tired driver resting.'},{key:'C',text:'Pull over safely and rest soon',correct:true,explain:'Correct. ADAS can assist, but a dangerously tired driver still needs to stop.'}]}
+];
+const el=id=>document.getElementById(id);
+let state={order:[],index:0,score:0,accidents:0,streak:0,bestStreak:0,revealed:false,selected:null,outcome:null,timer:null,timeLeft:0};
+function shuffle(arr){return [...arr].sort(()=>Math.random()-0.5)}
+function scoreLabel(score,total){const pct=Math.round(score/total*100);if(pct>=90)return'Safer than most drivers today';if(pct>=75)return'Strong defensive instincts';if(pct>=60)return'Good, but reaction support helps';return'Exactly why driver assistance matters'}
+function randomAccidentOutcome(choiceCorrect,scenario){if(choiceCorrect)return{happened:false,text:'No accident this round.'};const high=['Very high','High','High if delayed','Hidden / sudden','High if ignored'];const moderate=['Medium','Moderate / hidden','Unknown / hidden'];let p=.35;if(high.includes(scenario.accidentRisk))p=.75;else if(moderate.includes(scenario.accidentRisk))p=.5;const happened=Math.random()<p;return{happened,text:happened?'Accident triggered in this simulation.':'You got away with it this time, but the choice was still unsafe.'}}
+function show(section){['intro','play','results'].forEach(id=>el(id).classList.add('hidden'));el(section).classList.remove('hidden')}
+function current(){return state.order[state.index]}
+function updateTop(){el('statScenario').textContent=`${state.index+1} / ${state.order.length}`;el('statScore').textContent=state.score;el('statAccidents').textContent=state.accidents;el('statStreak').textContent=state.bestStreak;el('progressBar').style.width=`${((state.index+(state.revealed?1:0))/state.order.length)*100}%`}
+function setTimeDisplay(){const c=current();if(c.mode==='timed'){el('timeLabel').textContent='Time left';el('timeDisplay').textContent=`${(state.timeLeft/1000).toFixed(1)}s`;el('timeDisplay').className='time '+(state.timeLeft<1000?'red':'blue')}else{el('timeLabel').textContent='Round type';el('timeDisplay').textContent='Untimed';el('timeDisplay').className='time amber'}}
+function startGame(){clearInterval(state.timer);state={order:shuffle(SCENARIOS),index:0,score:0,accidents:0,streak:0,bestStreak:0,revealed:false,selected:null,outcome:null,timer:null,timeLeft:0};show('play');renderScenario()}
+function renderScenario(){clearInterval(state.timer);state.revealed=false;state.selected=null;state.outcome=null;const c=current();state.timeLeft=c.mode==='timed'?c.reactionMs:0;updateTop();el('title').textContent=c.title;el('context').textContent=c.context;el('difficulty').textContent=c.difficulty;el('prompt').textContent=c.prompt;el('modeBadge').textContent=c.mode==='timed'?'Fast reaction round':'Think first round';el('riskBadge').textContent=`Accident risk: ${c.accidentRisk}`;setTimeDisplay();const box=el('choices');box.innerHTML='';c.choices.forEach(choice=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<span class="key">${choice.key}</span><div class="txt">${choice.text}</div>`;btn.onclick=()=>choose(choice.key);box.appendChild(btn)});el('reveal').classList.add('hidden');el('accidentBox').classList.add('hidden');if(c.mode==='timed'){state.timer=setInterval(()=>{state.timeLeft-=100;if(state.timeLeft<=0){clearInterval(state.timer);state.timeLeft=0;setTimeDisplay();reveal('TIME')}else setTimeDisplay()},100)}}
+function choose(key){if(state.revealed)return;clearInterval(state.timer);reveal(key)}
+function reveal(key){state.revealed=true;state.selected=key;const c=current();const correctChoice=c.choices.find(x=>x.correct);const selectedChoice=key==='TIME'?null:c.choices.find(x=>x.key===key);const choiceCorrect=selectedChoice?selectedChoice.correct:false;state.outcome=randomAccidentOutcome(choiceCorrect,c);if(state.outcome.happened)state.accidents+=1;if(choiceCorrect){state.score+=1;state.streak+=1;state.bestStreak=Math.max(state.bestStreak,state.streak)}else state.streak=0;updateTop();[...el('choices').children].forEach((node,i)=>{const choice=c.choices[i];node.classList.add('disabled');if(choice.correct)node.classList.add('correct');if(key!=='TIME'&&choice.key===key&&!choice.correct)node.classList.add('wrong')});el('revealTitle').textContent=key==='TIME'?'Time ran out.':choiceCorrect?'Good choice.':'Here is the safer reaction.';el('revealText').textContent=key==='TIME'?correctChoice.explain:selectedChoice.explain;const ab=el('accidentBox');const at=el('accidentText');ab.className='accident '+(state.outcome.happened?'redbg':'ambg');at.textContent=state.outcome.text;ab.classList.remove('hidden');el('nextBtn').textContent=state.index===state.order.length-1?'See results':'Next scenario';el('reveal').classList.remove('hidden')}
+function nextScenario(){if(state.index===state.order.length-1){showResults();return}state.index+=1;renderScenario()}
+function showResults(){show('results');el('finalScore').textContent=`${state.score} / ${state.order.length}`;el('finalAccuracy').textContent=`${Math.round(state.score/state.order.length*100)}%`;el('finalAccidents').textContent=state.accidents;el('finalLabel').textContent=scoreLabel(state.score,state.order.length)}
+el('startBtn').onclick=startGame;el('nextBtn').onclick=nextScenario;el('restartBtn').onclick=startGame;el('backBtn').onclick=()=>show('intro');
+</script>
+</body>
+</html>
